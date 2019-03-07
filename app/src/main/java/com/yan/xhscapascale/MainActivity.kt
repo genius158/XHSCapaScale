@@ -13,8 +13,14 @@ import android.view.animation.OvershootInterpolator
 
 class MainActivity : AppCompatActivity() {
 
-    private var offsetScale = 1F
+    /**
+     * 最终的缩放大小
+     */
+    private var finalScale = 1F
 
+    /**
+     * touch 结束的 恢复动画
+     */
     private var animator: ValueAnimator? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +48,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onCapaSet(csv: CapaScaleView, view: View) {
+        // cover view 存贮,方便删除添加操作
         val cover = ArrayList<View>(1)
 
         csv.eventListener = object : CapaScaleView.EventListener {
@@ -49,9 +56,9 @@ class MainActivity : AppCompatActivity() {
                 cover[0].x = cover[0].x + dx
                 cover[0].y = cover[0].y + dy
 
-                offsetScale *= scale.toFloat()
+                finalScale *= scale.toFloat()
 
-                cover[0].scaleX = offsetScale
+                cover[0].scaleX = finalScale
                 cover[0].scaleY = cover[0].scaleX
             }
         }
@@ -68,7 +75,9 @@ class MainActivity : AppCompatActivity() {
             cover[0].y = xy[1].toFloat()
 
             (window.decorView as ViewGroup).addView(cover[0])
+            view.visibility = View.GONE
         }
+
         csv.onTouchEnd = {
             val c = (if (cover.size > 0) cover[0] else null)
             if (c != null) {
@@ -76,7 +85,7 @@ class MainActivity : AppCompatActivity() {
                     animator = ValueAnimator.ofFloat(1F, 0F)
                 }
                 val tempAM = animator!!
-                tempAM.duration = 200
+                tempAM.duration = 250
 
                 val xy = IntArray(2)
                 view.getLocationInWindow(xy)
@@ -86,7 +95,7 @@ class MainActivity : AppCompatActivity() {
                 tempAM.interpolator = OvershootInterpolator(0.5F)
                 tempAM.addUpdateListener { animation ->
                     val value: Float = animation.animatedValue as Float
-                    val tempOffsetScale = (offsetScale - 1) * value + 1
+                    val tempOffsetScale = (finalScale - 1) * value + 1
                     c.scaleX = tempOffsetScale
                     c.scaleY = c.scaleX
 
@@ -99,10 +108,11 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     override fun onAnimationEnd(animation: Animator?) {
-                        offsetScale = 1F
-                        val c = if (cover.size > 0) cover[0] else null
-                        (window.decorView as ViewGroup).removeView(c)
+                        view.visibility = View.VISIBLE
+                        finalScale = 1F
+                        (window.decorView as ViewGroup).removeView(if (cover.size > 0) cover[0] else null)
                         cover.clear()
+
                     }
 
                     override fun onAnimationCancel(animation: Animator?) {
@@ -113,8 +123,8 @@ class MainActivity : AppCompatActivity() {
                 })
                 tempAM.start()
             }
-
         }
+
         csv.onViewRemoved = {
             animator?.end()
         }
