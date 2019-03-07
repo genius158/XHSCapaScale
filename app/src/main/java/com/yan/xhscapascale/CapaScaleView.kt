@@ -66,7 +66,7 @@ class CapaScaleView(context: Context, attrs: AttributeSet) : View(context, attrs
 
     private fun moveDell(event: MotionEvent) {
         if (eventModel == 1) {
-            if (event.pointerCount != 2) {
+            if (event.pointerCount < 2) {
                 return
             }
             if (point1 == null) {
