@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
-import android.widget.LinearLayout
 
 class MainActivity : AppCompatActivity() {
 
@@ -61,7 +60,7 @@ class MainActivity : AppCompatActivity() {
             animator?.end()
             cover.add(View(this))
             cover[0].setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryDark))
-            val llp: LinearLayout.LayoutParams = LinearLayout.LayoutParams(view.layoutParams)
+            val llp = ViewGroup.MarginLayoutParams(view.layoutParams)
             cover[0].layoutParams = llp
             val xy = IntArray(2)
             view.getLocationInWindow(xy)
