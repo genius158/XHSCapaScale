@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.OvershootInterpolator
 import android.widget.LinearLayout
 
 class MainActivity : AppCompatActivity() {
@@ -83,7 +84,7 @@ class MainActivity : AppCompatActivity() {
 
                 val viewX = c.x
                 val viewY = c.y
-
+                tempAM.interpolator = OvershootInterpolator(0.5F)
                 tempAM.addUpdateListener { animation ->
                     val value: Float = animation.animatedValue as Float
                     val tempOffsetScale = (offsetScale - 1) * value + 1
