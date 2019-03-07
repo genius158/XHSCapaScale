@@ -14,7 +14,7 @@
     <com.yan.xhscapascale.CapaScaleView
             android:layout_gravity="center"
             android:id="@+id/csv"
-            android:layout_width="100dp"
-            android:layout_height="100dp"/>
+            android:layout_width="match_parent"
+            android:layout_height="300dp"/>
 
 </FrameLayout>
