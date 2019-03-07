@@ -1,4 +1,4 @@
-# XHSCapaScale(小红书发现页图片手势实现)
+# XHSCapaScale(小红书发现页图片手势实现)[demo](https://github.com/genius158/XHSCapaScale/blob/master/app-debug.apk)
 水文 2333
 ## 小红书发现页图片效果
 
