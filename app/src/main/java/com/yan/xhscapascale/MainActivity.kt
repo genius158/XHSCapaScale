@@ -51,16 +51,14 @@ class MainActivity : AppCompatActivity() {
         // cover view 存贮,方便删除添加操作
         val cover = ArrayList<View>(1)
 
-        csv.eventListener = object : CapaScaleView.EventListener {
-            override fun onEvent(dx: Float, dy: Float, scale: Double) {
-                cover[0].x = cover[0].x + dx
-                cover[0].y = cover[0].y + dy
+        csv.eventListener = { dx: Float, dy: Float, scale: Double ->
+            cover[0].x = cover[0].x + dx
+            cover[0].y = cover[0].y + dy
 
-                finalScale *= scale.toFloat()
+            finalScale *= scale.toFloat()
 
-                cover[0].scaleX = finalScale
-                cover[0].scaleY = cover[0].scaleX
-            }
+            cover[0].scaleX = finalScale
+            cover[0].scaleY = cover[0].scaleX
         }
 
         csv.onTouchStart = {

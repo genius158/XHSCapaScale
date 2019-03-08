@@ -12,7 +12,7 @@ class CapaScaleView(context: Context, attrs: AttributeSet) : View(context, attrs
     var onTouchEnd: (() -> Unit)? = null
     var onTouchStart: (() -> Unit)? = null
 
-    var eventListener: EventListener? = null
+    var eventListener: ((dx: Float, dy: Float, scale: Double) -> Unit)? = null
     /**
      * 0.不处理事件
      * 1.放大位移模式
@@ -47,17 +47,14 @@ class CapaScaleView(context: Context, attrs: AttributeSet) : View(context, attrs
                 }
             }
             MotionEvent.ACTION_MOVE -> moveDell(event)
-        }
 
-        if (event.actionMasked == MotionEvent.ACTION_CANCEL
-            || event.actionMasked == MotionEvent.ACTION_UP
-        ) {
-            eventModel = 0
-            point1 = null
-            point2 = null
-            onTouchEnd?.invoke()
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                eventModel = 0
+                point1 = null
+                point2 = null
+                onTouchEnd?.invoke()
+            }
         }
-
         return super.onTouchEvent(event)
     }
 
@@ -96,7 +93,7 @@ class CapaScaleView(context: Context, attrs: AttributeSet) : View(context, attrs
 
             Log.e(javaClass.name, "dx: $dx    dy: $dy   scale: $scale")
 
-            eventListener?.onEvent(dx, dy, scale)
+            eventListener?.invoke(dx, dy, scale)
 
             point1!!.set(event.getX(0), event.getY(0))
             point2!!.set(event.getX(1), event.getY(1))
@@ -110,17 +107,10 @@ class CapaScaleView(context: Context, attrs: AttributeSet) : View(context, attrs
 
             Log.e(javaClass.name, "dx: $dx    dy: $dy   scale: 1")
 
-            eventListener?.onEvent(dx, dy, 1.0)
+            eventListener?.invoke(dx, dy, 1.0)
             point1!!.set(event.getX(0), event.getY(0))
         }
-
     }
-
-
-    interface EventListener {
-        fun onEvent(dx: Float, dy: Float, scale: Double)
-    }
-
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
