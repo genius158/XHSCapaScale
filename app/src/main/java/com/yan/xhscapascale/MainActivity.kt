@@ -33,9 +33,7 @@ class MainActivity : AppCompatActivity() {
             override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder =
                 object : RecyclerView.ViewHolder(layoutInflater.inflate(R.layout.item_main, p0, false)) {}
 
-            override fun getItemCount(): Int {
-                return 10
-            }
+            override fun getItemCount(): Int = 10
 
             override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
                 val csv = p0.itemView.findViewById<CapaScaleView>(R.id.csv)
