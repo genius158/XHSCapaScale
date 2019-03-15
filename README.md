@@ -1,5 +1,4 @@
 # XHSCapaScale(小红书发现页图片手势实现)[demo](https://github.com/genius158/XHSCapaScale/blob/master/app-debug.apk)
-水文 2333
 ## 小红书发现页图片效果
 
 以下由于gif制作太麻烦以下，小红书的发现页图片手势效果口述（当然你去下载看看也是可以的 ~~）
